@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ArtSpaceApp</string>
+
+    <string name="WomanWithAParasol">Woman with a Parasol - Madame Monet and Her Son, 1875</string>
+    <string name="WWAPMMHS_Artist_Year">Claude Monet (artist) French, 1840 – 1926</string>
+    <string name="WWAPMMHS_description">Woman with a Parasol – Madame Monet and Her Son, sometimes known as The Stroll (French: La Promenade) is an oil-on-canvas painting by Claude Monet from 1875. The Impressionist work depicts his wife Camille Monet and their son Jean Monet in the period from 1871 to 1877 while they were living in Argenteuil, capturing a moment on a stroll on a windy summer\'s day.</string>
+
+    <string name="ImpressionSunrise">Impression Sunrise, 1872</string>
+    <string name="IS_Artist_Year">Claude Monet (artist) French, 1840 – 1926</string>
+    <string name="IS_description">
+        Impression, Sunrise is an 1872 painting by Claude Monet first shown at what would become known as the "Exhibition of the Impressionists" in Paris in April, 1874. The painting is credited with inspiring the name of the Impressionist movement. Impression, Sunrise depicts the port of Le Havre, Monet\'s hometown.
+    </string>
+
+    <string name="TheWaterLilyPond">The Water Lily Pond, 1899</string>
+    <string name="TWLP_Artist_Year">Claude Monet (artist) French, 1840 – 1926</string>
+    <string name="TWLP_description">By the 1890s, the financial worries that had plagued Monet for most of his life were coming to an era and he was able to buy Giverny - in fact he had established some wealth and was able to lavish his money on his own home and garden for the first time. It would result in a stunning and unique property, which included the most exciting garden - designed by the artist - and its Water Lily Pond. Planning permission was granted in 1893 and he spent much of his focus on the bridge in his works. Incredibly, he only painted about three works of the lily pond up to 1897, This work, from 1899, is exquisite in its composition of background trees, weeping willow, and the bridge, which underwent many alterations up to 1910. The pond here is literally obliterated by vegetation and lilies. It is composed of short brushstrokes - a familiar method during his mature years. In a letter, Monet described how he had planted the water lilies for fun - he had never intended painting them, however, once they established themselves they almost became his only source of inspiration. He wrote: &quot;I saw, all of a sudden, that my pond had become enchanted… Since then, I have had no other model.&quot;
+    </string>
+
+</resources>
