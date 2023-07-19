@@ -7,6 +7,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -46,6 +48,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
 import com.example.compose.ArtSpaceAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -121,6 +124,7 @@ fun ArtworkShown(drawableResourceId: Int, title: Int, artist: Int, description: 
         }
 
         Divider(
+            modifier = Modifier.width(124.dp),
             thickness = 2.dp,
             color = MaterialTheme.colorScheme.secondary,
         )
@@ -132,7 +136,8 @@ fun ArtworkShown(drawableResourceId: Int, title: Int, artist: Int, description: 
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(24.dp)
+                modifier = Modifier
+                    .padding(24.dp)
             ) {
                 Text(
                     text = stringResource(description),
@@ -143,29 +148,58 @@ fun ArtworkShown(drawableResourceId: Int, title: Int, artist: Int, description: 
                         if (it.hasVisualOverflow) {
                             showMore = true
                         }
-                    }
+                    },
+                    modifier = Modifier.clickable { expand= true }
                 )
                 if (showMore){
-                    Button(onClick = {  }) {
+                    Button(onClick = { expand = true }) {
                         Text(
                             text =  "More",
                             style = MaterialTheme.typography.labelMedium
                         )
                     }
                 }
+                if (expand){
+                    Popup(
+                        onDismissRequest = {
+                            expand = false
+                        }
+                    ) {
+                        Surface(
+                            shape = MaterialTheme.shapes.large,
+                            color= MaterialTheme.colorScheme.surface,
+                            shadowElevation = 24.dp,
+                            tonalElevation = 4.dp,
+                            modifier = Modifier
+                                .verticalScroll(rememberScrollState())
+                                .padding(24.dp)
+                        ) {
+                            Column(
+                                verticalArrangement = Arrangement.SpaceAround,
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.padding(24.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(description),
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    textAlign = TextAlign.Center
+                                )
+                                Button(onClick = { expand = false }) {
+                                    Text(
+                                        text =  "Close",
+                                        style = MaterialTheme.typography.labelMedium,
+                                    )
+                                }
+                            }
+
+                        }
+
+                    }
+                }
             }
         }
     }
 
-}
-
-@Composable
- fun showExpanded(){
-    Surface(
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Text("Text on Surface")
-    }
 }
 
 @Preview(showBackground = true)
