@@ -105,10 +105,28 @@ fun ArtSpaceLayout() {
         bottomBar = {
             BottomAppBar(
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(
+                        onClick = {
+                            if (index == 0){
+                                index = 0
+                            }
+                            else{
+                                index--
+                            }
+                        }
+                    ) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Previous")
                     }
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(
+                        onClick = {
+                            if (index == titles.size - 1){
+                                index = 0
+                            }
+                            else{
+                                index++
+                            }
+                        }
+                    ) {
                         Icon(Icons.Default.ArrowForward, contentDescription = "Next")
                     }
                 },
