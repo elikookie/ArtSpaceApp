@@ -51,7 +51,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 
 import androidx.compose.material3.Scaffold
-
+import androidx.compose.ui.layout.ContentScale
 
 
 class MainActivity : ComponentActivity() {
@@ -108,7 +108,7 @@ fun ArtSpaceLayout() {
                     IconButton(
                         onClick = {
                             if (index == 0){
-                                index = 0
+                                index = titles.size - 1
                             }
                             else{
                                 index--
@@ -117,6 +117,18 @@ fun ArtSpaceLayout() {
                     ) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Previous")
                     }
+
+                    Spacer(modifier = Modifier.padding(58.dp))
+
+                    FloatingActionButton(
+                        onClick = { /*TODO*/ },
+                        elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp)
+                    ) {
+                        Icon(Icons.Default.Add, contentDescription = "Add")
+                    }
+
+                    Spacer(modifier = Modifier.padding(58.dp))
+
                     IconButton(
                         onClick = {
                             if (index == titles.size - 1){
@@ -130,14 +142,7 @@ fun ArtSpaceLayout() {
                         Icon(Icons.Default.ArrowForward, contentDescription = "Next")
                     }
                 },
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = { /*TODO*/ },
-                        elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp)
-                    ) {
-                        Icon(Icons.Default.Add, contentDescription = "Add")
-                    }
-                }
+
             )
         }
     ) {
@@ -155,23 +160,29 @@ fun ArtSpaceLayout() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArtworkShown(drawableResourceId: Int, title: Int, artist: Int, description: Int){
-    var showMore by remember { mutableStateOf(false)}
+    var showMore by remember { mutableStateOf(true)}
     var expand by remember { mutableStateOf(false)}
 
     Column(
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ){
         Card(
             shape= MaterialTheme.shapes.large,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
+                .width(364.dp)
         ) {
             Image(
-            painter = painterResource(drawableResourceId),
-            contentDescription = null,
-            modifier = Modifier
-                .clip(MaterialTheme.shapes.large)
+                painter = painterResource(drawableResourceId),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth ,
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.medium)
+                    .aspectRatio(16f / 9f)
         )
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -200,9 +211,10 @@ fun ArtworkShown(drawableResourceId: Int, title: Int, artist: Int, description: 
             color = MaterialTheme.colorScheme.secondary,
         )
         Card(
-            onClick = {},
+            onClick = {expand= true},
             shape= MaterialTheme.shapes.large,
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier
+                .padding(16.dp),
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -216,11 +228,12 @@ fun ArtworkShown(drawableResourceId: Int, title: Int, artist: Int, description: 
                     maxLines = 10,
                     overflow = TextOverflow.Ellipsis,
                     onTextLayout = {
-                        if (it.hasVisualOverflow) {
-                            showMore = true
+                        showMore = true
+                        if (!it.hasVisualOverflow) {
+                            showMore = false
                         }
+                        expand = false
                     },
-                    modifier = Modifier.clickable { expand= true }
                 )
                 if (showMore){
                     Button(
@@ -231,44 +244,45 @@ fun ArtworkShown(drawableResourceId: Int, title: Int, artist: Int, description: 
                             style = MaterialTheme.typography.labelMedium
                         )
                     }
-                }
-                if (expand){
-                    Popup(
-                        onDismissRequest = {
-                            expand = false
-                        }
-                    ) {
-                        Surface(
-                            shape = MaterialTheme.shapes.large,
-                            color= MaterialTheme.colorScheme.surface,
-                            shadowElevation = 24.dp,
-                            tonalElevation = 4.dp,
-                            modifier = Modifier
-                                .verticalScroll(rememberScrollState())
-                                .padding(24.dp)
+                    if (expand){
+                        Popup(
+                            onDismissRequest = {
+                                expand = false
+                            }
                         ) {
-                            Column(
-                                verticalArrangement = Arrangement.SpaceAround,
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier.padding(24.dp)
+                            Surface(
+                                shape = MaterialTheme.shapes.large,
+                                color= MaterialTheme.colorScheme.surface,
+                                shadowElevation = 24.dp,
+                                tonalElevation = 4.dp,
+                                modifier = Modifier
+                                    .verticalScroll(rememberScrollState())
+                                    .padding(24.dp)
                             ) {
-                                Text(
-                                    text = stringResource(description),
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    textAlign = TextAlign.Center
-                                )
-                                Button(onClick = { expand = false }) {
+                                Column(
+                                    verticalArrangement = Arrangement.SpaceAround,
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.padding(24.dp)
+                                ) {
                                     Text(
-                                        text =  "Close",
-                                        style = MaterialTheme.typography.labelMedium,
+                                        text = stringResource(description),
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        textAlign = TextAlign.Center
                                     )
+                                    Button(onClick = { expand = false }) {
+                                        Text(
+                                            text =  "Close",
+                                            style = MaterialTheme.typography.labelMedium,
+                                        )
+                                    }
                                 }
+
                             }
 
                         }
-
                     }
                 }
+
             }
         }
         Spacer(modifier = Modifier.padding(24.dp))
